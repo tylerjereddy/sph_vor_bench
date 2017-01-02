@@ -19,6 +19,7 @@ def benchmark_SphericalVoronoi(max_num_generators, num_tests, num_repeats,
     generator_counts = np.linspace(10, max_num_generators, num=num_tests)
     dict_performance_measures = {}
     for generator_count in generator_counts:
+        generator_count = int(generator_count)
         random_generators = generate_spherical_points(generator_count)
         list_execution_times = [] # in seconds
         print 'running benchmarks for', generator_count, 'generators'
