@@ -28,4 +28,6 @@ for condition, bench_dict in zip(['scipy 0.18.1', 'scipy 0.19'], [scipy_0181_ben
 ax1.legend()
 ax1.set_xlabel('# generators')
 ax1.set_ylabel('Time to Produce Voronoi Regions (s)')
+ax1.xaxis.major.formatter._useMathText = True
+ax1.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
 fig.savefig('fig_benchmarks.png', dpi=300)
