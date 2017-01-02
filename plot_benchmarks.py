@@ -7,7 +7,7 @@ scipy_019_bench_data = pickle.load(open('bench_019.p', 'rb'))
 
 fig = plt.figure()
 ax1 = fig.add_subplot('111')
-for condition, bench_dict in zip(['0.18.1', '0.19'], [scipy_0181_bench_data,
+for condition, bench_dict in zip(['scipy 0.18.1', 'scipy 0.19'], [scipy_0181_bench_data,
                                  scipy_019_bench_data]):
     x_values = []
     y_values = []
@@ -26,4 +26,6 @@ for condition, bench_dict in zip(['0.18.1', '0.19'], [scipy_0181_bench_data,
     ax1.errorbar(x_values, y_values, yerr=y_err_values, marker='o',
             label=condition, markeredgecolor='None')
 ax1.legend()
+ax1.set_xlabel('# generators')
+ax1.set_ylabel('Time to Produce Voronoi Regions (s)')
 fig.savefig('fig_benchmarks.png', dpi=300)
