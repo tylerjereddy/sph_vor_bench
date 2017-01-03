@@ -35,4 +35,5 @@ ax1.annotate('influenza A', (20000, 12), (1000, 70), arrowprops = dict(arrowstyl
 # add vertical line at scipy 0.18.1 physical memory consumption limit
 # on rMBP 
 ax1.axvline(x=9e4, lw=4, color='grey', ls='--')
+ax1.set_ylim(-10,350)
 fig.savefig('fig_benchmarks.png', dpi=300)
