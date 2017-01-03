@@ -12,7 +12,7 @@ if '0.18.1' in version:
                                         outfile_name='bench_018.p')
 elif '0.19' in version:
     benchlib.benchmark_SphericalVoronoi(max_num_generators=1e7,
-                                        num_tests=10,
+                                        num_tests=40,
                                         num_repeats=5,
                                         outfile_name='bench_019.p')
 else:
