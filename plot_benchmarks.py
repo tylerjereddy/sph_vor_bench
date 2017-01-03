@@ -25,9 +25,9 @@ for condition, bench_dict in zip(['scipy 0.18.1', 'scipy 0.19'], [scipy_0181_ben
     y_err_values = y_err_values[sorter]
     ax1.errorbar(x_values, y_values, yerr=y_err_values, marker='o',
             label=condition, markeredgecolor='None')
-ax1.legend()
-ax1.set_xlabel('# generators')
+ax1.legend(loc=2)
+ax1.set_xlabel('log(generators)')
 ax1.set_ylabel('Time to Produce Voronoi Regions (s)')
-ax1.xaxis.major.formatter._useMathText = True
-ax1.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
+ax1.set_xscale('log')
+ax1.set_xlim(1,10**8)
 fig.savefig('fig_benchmarks.png', dpi=300)
