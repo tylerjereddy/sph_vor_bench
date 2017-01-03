@@ -30,4 +30,6 @@ ax1.set_xlabel('log(generators)')
 ax1.set_ylabel('Time to Produce Voronoi Regions (s)')
 ax1.set_xscale('log')
 ax1.set_xlim(1,10**8)
+ax1.annotate('dengue', (4000, 5), (400, 50), arrowprops =dict(arrowstyle="->"),fontsize = 10) #approx. dengue leaflet size
+ax1.annotate('influenza A', (20000, 12), (1000, 70), arrowprops = dict(arrowstyle="->"),fontsize = 10) #approx. flu leaflet size indicator
 fig.savefig('fig_benchmarks.png', dpi=300)
