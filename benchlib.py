@@ -46,6 +46,28 @@ def calculate_surface_area_of_a_spherical_Voronoi_polygon(array_ordered_Voronoi_
             totalexcess += 4 * math.atan(math.sqrt( math.tan(0.5 * s) * math.tan(0.5 * (s-root_a_dist)) * math.tan(0.5 * (s-root_b_dist)) * math.tan(0.5 * (s-a_b_dist))))
         return totalexcess * (sphere_radius ** 2)
 
+def percent_surface_area_analysis(max_num_generators, num_tests, outfile_name):
+    generator_counts = np.logspace(1, np.log10(max_num_generators), num=num_tests)
+    list_percent_reconstitutions = []
+    list_generator_counts = []
+    for generator_count in generator_counts:
+        generator_count = int(generator_count)
+        list_generator_counts.append(generator_count)
+        random_generators = generate_spherical_points(generator_count)
+        print 'running SA % reconstitution analysis for', generator_count, 'generators'
+        sv = scipy.spatial.SphericalVoronoi(random_generators)
+        sv.sort_vertices_of_regions()
+        reconstituted_area = 0
+        for region in sv.regions:
+            polygon = sv.vertices[region]
+            area = calculate_surface_area_of_a_spherical_Voronoi_polygon(polygon, 1.0)
+            reconstituted_area += area
+        list_percent_reconstitutions.append(reconstituted_area)
+    percent_reconstitutions = np.array(list_percent_reconstitutions)
+    generator_counts = np.array(list_generator_counts)
+    pickle.dump((generator_counts, percent_reconstitutions), open(outfile_name,
+        'wb'))
+
 def benchmark_SphericalVoronoi(max_num_generators, num_tests, num_repeats,
                                outfile_name):
     generator_counts = np.logspace(1, np.log10(max_num_generators), num=num_tests)
