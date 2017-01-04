@@ -4,9 +4,10 @@ import numpy as np
 
 scipy_0181_bench_data = pickle.load(open('bench_018.p', 'rb'))
 scipy_019_bench_data = pickle.load(open('bench_019.p', 'rb'))
+scipy_019_time_complexity_data = pickle.load(open('time_complexity.p', 'rb'))
 
 fig = plt.figure()
-ax1 = fig.add_subplot('111')
+ax1 = fig.add_subplot('121')
 for condition, bench_dict in zip(['scipy 0.18.1', 'scipy 0.19'], [scipy_0181_bench_data,
                                  scipy_019_bench_data]):
     x_values = []
@@ -36,4 +37,23 @@ ax1.annotate('influenza A', (20000, 12), (1000, 70), arrowprops = dict(arrowstyl
 # on rMBP 
 ax1.axvline(x=9e4, lw=4, color='grey', ls='--')
 ax1.set_ylim(-10,350)
+
+# plot scipy 0.19 empirical time complexity fitting data
+ax2 = fig.add_subplot('122')
+sample_x_data = scipy_019_time_complexity_data['sample_x_data']
+sample_y_data_loglinear = scipy_019_time_complexity_data['loglinear']
+sample_y_data_linear = scipy_019_time_complexity_data['linear']
+sample_y_data_quadratic = scipy_019_time_complexity_data['quadratic']
+
+ax2.plot(sample_x_data, sample_y_data_linear, c = 'red', label = 'linear', alpha= 0.5, lw = 2)
+ax2.plot(sample_x_data, sample_y_data_loglinear, c = 'green', label ='loglinear', alpha = 0.5, lw = 2)
+ax2.plot(sample_x_data, sample_y_data_quadratic, c = 'purple', label ='quadratic', alpha = 0.5, lw = 2)
+ax2.scatter(x_values, y_values, color='black')
+ax2.legend(loc = 2)
+ax2.set_xscale('log')
+ax2.set_ylim(-10,500)
+ax2.set_xlim(1,10**8)
+ax2.set_xlabel('log(generators)')
+
+fig.set_size_inches(12,6)
 fig.savefig('fig_benchmarks.png', dpi=300)
