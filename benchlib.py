@@ -7,6 +7,33 @@ from scipy.spatial import SphericalVoronoi
 import cPickle as pickle
 import scipy.optimize
 
+def convert_cartesian_array_to_spherical_array(coord_array,angle_measure='radians'):
+    '''Take shape (N,3) cartesian coord_array and return an array of the same shape in spherical polar form (r, theta, phi). Based on StackOverflow response: http://stackoverflow.com/a/4116899
+    use radians for the angles by default, degrees if angle_measure == 'degrees' '''
+    spherical_coord_array = numpy.zeros(coord_array.shape)
+    xy = coord_array[...,0]**2 + coord_array[...,1]**2
+    spherical_coord_array[...,0] = numpy.sqrt(xy + coord_array[...,2]**2)
+    spherical_coord_array[...,1] = numpy.arctan2(coord_array[...,1], coord_array[...,0])
+    spherical_coord_array[...,2] = numpy.arccos(coord_array[...,2] / spherical_coord_array[...,0])
+    if angle_measure == 'degrees':
+        spherical_coord_array[...,1] = numpy.degrees(spherical_coord_array[...,1])
+        spherical_coord_array[...,2] = numpy.degrees(spherical_coord_array[...,2])
+    return spherical_coord_array
+
+def convert_spherical_array_to_cartesian_array(spherical_coord_array,angle_measure='radians'):
+    '''Take shape (N,3) spherical_coord_array (r,theta,phi) and return an array of the same shape in cartesian coordinate form (x,y,z). Based on the equations provided at: http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations#From_spherical_coordinates
+    use radians for the angles by default, degrees if angle_measure == 'degrees' '''
+    cartesian_coord_array = numpy.zeros(spherical_coord_array.shape)
+    #convert to radians if degrees are used in input (prior to Cartesian conversion process)
+    if angle_measure == 'degrees':
+        spherical_coord_array[...,1] = numpy.deg2rad(spherical_coord_array[...,1])
+        spherical_coord_array[...,2] = numpy.deg2rad(spherical_coord_array[...,2])
+    #now the conversion to Cartesian coords
+    cartesian_coord_array[...,0] = spherical_coord_array[...,0] * numpy.cos(spherical_coord_array[...,1]) * numpy.sin(spherical_coord_array[...,2])
+    cartesian_coord_array[...,1] = spherical_coord_array[...,0] * numpy.sin(spherical_coord_array[...,1]) * numpy.sin(spherical_coord_array[...,2])
+    cartesian_coord_array[...,2] = spherical_coord_array[...,0] * numpy.cos(spherical_coord_array[...,2])
+    return cartesian_coord_array
+
 def generate_spherical_points(num_points):
     # generate uniform points on sphere (see:
     # http://stackoverflow.com/a/23785326/2942522)
