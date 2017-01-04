@@ -62,6 +62,8 @@ def percent_surface_area_analysis(max_num_generators, num_tests, outfile_name):
             polygon = sv.vertices[region]
             area = calculate_surface_area_of_a_spherical_Voronoi_polygon(polygon, 1.0)
             reconstituted_area += area
+        theoretical_area = 4. * np.pi
+        reconstituted_area = (float(reconstituted_area) / theoretical_area) * 100.
         list_percent_reconstitutions.append(reconstituted_area)
     percent_reconstitutions = np.array(list_percent_reconstitutions)
     generator_counts = np.array(list_generator_counts)
