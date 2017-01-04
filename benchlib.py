@@ -10,28 +10,28 @@ import scipy.optimize
 def convert_cartesian_array_to_spherical_array(coord_array,angle_measure='radians'):
     '''Take shape (N,3) cartesian coord_array and return an array of the same shape in spherical polar form (r, theta, phi). Based on StackOverflow response: http://stackoverflow.com/a/4116899
     use radians for the angles by default, degrees if angle_measure == 'degrees' '''
-    spherical_coord_array = numpy.zeros(coord_array.shape)
+    spherical_coord_array = np.zeros(coord_array.shape)
     xy = coord_array[...,0]**2 + coord_array[...,1]**2
-    spherical_coord_array[...,0] = numpy.sqrt(xy + coord_array[...,2]**2)
-    spherical_coord_array[...,1] = numpy.arctan2(coord_array[...,1], coord_array[...,0])
-    spherical_coord_array[...,2] = numpy.arccos(coord_array[...,2] / spherical_coord_array[...,0])
+    spherical_coord_array[...,0] = np.sqrt(xy + coord_array[...,2]**2)
+    spherical_coord_array[...,1] = np.arctan2(coord_array[...,1], coord_array[...,0])
+    spherical_coord_array[...,2] = np.arccos(coord_array[...,2] / spherical_coord_array[...,0])
     if angle_measure == 'degrees':
-        spherical_coord_array[...,1] = numpy.degrees(spherical_coord_array[...,1])
-        spherical_coord_array[...,2] = numpy.degrees(spherical_coord_array[...,2])
+        spherical_coord_array[...,1] = np.degrees(spherical_coord_array[...,1])
+        spherical_coord_array[...,2] = np.degrees(spherical_coord_array[...,2])
     return spherical_coord_array
 
 def convert_spherical_array_to_cartesian_array(spherical_coord_array,angle_measure='radians'):
     '''Take shape (N,3) spherical_coord_array (r,theta,phi) and return an array of the same shape in cartesian coordinate form (x,y,z). Based on the equations provided at: http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations#From_spherical_coordinates
     use radians for the angles by default, degrees if angle_measure == 'degrees' '''
-    cartesian_coord_array = numpy.zeros(spherical_coord_array.shape)
+    cartesian_coord_array = np.zeros(spherical_coord_array.shape)
     #convert to radians if degrees are used in input (prior to Cartesian conversion process)
     if angle_measure == 'degrees':
-        spherical_coord_array[...,1] = numpy.deg2rad(spherical_coord_array[...,1])
-        spherical_coord_array[...,2] = numpy.deg2rad(spherical_coord_array[...,2])
+        spherical_coord_array[...,1] = np.deg2rad(spherical_coord_array[...,1])
+        spherical_coord_array[...,2] = np.deg2rad(spherical_coord_array[...,2])
     #now the conversion to Cartesian coords
-    cartesian_coord_array[...,0] = spherical_coord_array[...,0] * numpy.cos(spherical_coord_array[...,1]) * numpy.sin(spherical_coord_array[...,2])
-    cartesian_coord_array[...,1] = spherical_coord_array[...,0] * numpy.sin(spherical_coord_array[...,1]) * numpy.sin(spherical_coord_array[...,2])
-    cartesian_coord_array[...,2] = spherical_coord_array[...,0] * numpy.cos(spherical_coord_array[...,2])
+    cartesian_coord_array[...,0] = spherical_coord_array[...,0] * np.cos(spherical_coord_array[...,1]) * np.sin(spherical_coord_array[...,2])
+    cartesian_coord_array[...,1] = spherical_coord_array[...,0] * np.sin(spherical_coord_array[...,1]) * np.sin(spherical_coord_array[...,2])
+    cartesian_coord_array[...,2] = spherical_coord_array[...,0] * np.cos(spherical_coord_array[...,2])
     return cartesian_coord_array
 
 def generate_spherical_points(num_points):
@@ -63,7 +63,7 @@ def calculate_surface_area_of_a_spherical_Voronoi_polygon(array_ordered_Voronoi_
         # this could definitely be written more nicely
         b_point = array_ordered_Voronoi_polygon_vertices[1]
         root_b_dist = calculate_haversine_distance_between_spherical_points(root_point, b_point, 1.0)
-        for i in 1 + numpy.arange(n - 2):
+        for i in 1 + np.arange(n - 2):
             a_point = b_point
             b_point = array_ordered_Voronoi_polygon_vertices[i+1]
             root_a_dist = root_b_dist
