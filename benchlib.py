@@ -83,7 +83,10 @@ def calculate_surface_area_of_a_spherical_Voronoi_polygon(array_ordered_Voronoi_
             root_b_dist = calculate_haversine_distance_between_spherical_points(root_point, b_point, 1.0)
             a_b_dist = calculate_haversine_distance_between_spherical_points(a_point, b_point, 1.0)
             s = (root_a_dist + root_b_dist + a_b_dist) / 2.
-            totalexcess += 4 * math.atan(math.sqrt( math.tan(0.5 * s) * math.tan(0.5 * (s-root_a_dist)) * math.tan(0.5 * (s-root_b_dist)) * math.tan(0.5 * (s-a_b_dist))))
+            try:
+                totalexcess += 4 * math.atan(math.sqrt( math.tan(0.5 * s) * math.tan(0.5 * (s-root_a_dist)) * math.tan(0.5 * (s-root_b_dist)) * math.tan(0.5 * (s-a_b_dist))))
+            except ValueError:
+                return 10 ** -8
         return totalexcess * (sphere_radius ** 2)
 
 def percent_surface_area_analysis(max_num_generators, num_tests, outfile_name):
