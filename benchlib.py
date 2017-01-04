@@ -68,7 +68,7 @@ def fit_time_complexity(scipy_019_bench_data):
     K_quadratic, pcov_quadratic = scipy.optimize.curve_fit(quadratic,
             x_data, y_data)
 
-    sample_x_data = np.linspace(1, x_data.max(), num=50)
+    sample_x_data = np.logspace(1, np.log10(x_data.max() + 1e7), num=250)
     sample_y_data_loglinear = loglinear(sample_x_data, K_loglinear[0])
     sample_y_data_linear = linear(sample_x_data, K_linear[0])
     sample_y_data_quadratic = quadratic(sample_x_data, K_quadratic[0])
