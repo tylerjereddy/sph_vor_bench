@@ -57,12 +57,16 @@ ax2.set_xlim(1,10**8)
 ax2.set_xlabel('log(generators)')
 
 ax3 = fig.add_subplot('133')
-ax3.scatter(scipy_019_area_data[0], scipy_019_area_data[1])
+ax3.plot(scipy_019_area_data[0], scipy_019_area_data[1], marker='o',  markeredgecolor='None')
 ax3.set_ylabel('% reconstitution of surface area')
 ax3.set_xlabel('log(generators)')
 ax3.set_xscale('log')
 ax3.set_ylim(99,100.1)
 ax3.set_xlim(1,10**8)
+ax3.annotate('dengue', (4000, 100), (400, 99.7), arrowprops
+        =dict(arrowstyle="->"),fontsize = 12) #approx. dengue leaflet size indicator
+ax3.annotate('influenza A', (20000, 100), (19000, 99.6), arrowprops
+        =dict(arrowstyle="->"),fontsize = 12) #approx. flu leaflet size indicator
 
 fig.set_size_inches(18,6)
 fig.savefig('fig_benchmarks.png', dpi=300)
