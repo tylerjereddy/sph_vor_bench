@@ -5,9 +5,10 @@ import numpy as np
 scipy_0181_bench_data = pickle.load(open('bench_018.p', 'rb'))
 scipy_019_bench_data = pickle.load(open('bench_019.p', 'rb'))
 scipy_019_time_complexity_data = pickle.load(open('time_complexity.p', 'rb'))
+scipy_019_area_data = pickle.load(open('area_019.p', 'rb'))
 
 fig = plt.figure()
-ax1 = fig.add_subplot('121')
+ax1 = fig.add_subplot('131')
 for condition, bench_dict in zip(['scipy 0.18.1', 'scipy 0.19'], [scipy_0181_bench_data,
                                  scipy_019_bench_data]):
     x_values = []
@@ -39,7 +40,7 @@ ax1.axvline(x=9e4, lw=4, color='grey', ls='--')
 ax1.set_ylim(-10,350)
 
 # plot scipy 0.19 empirical time complexity fitting data
-ax2 = fig.add_subplot('122')
+ax2 = fig.add_subplot('132')
 sample_x_data = scipy_019_time_complexity_data['sample_x_data']
 sample_y_data_loglinear = scipy_019_time_complexity_data['loglinear']
 sample_y_data_linear = scipy_019_time_complexity_data['linear']
@@ -55,5 +56,13 @@ ax2.set_ylim(-10,500)
 ax2.set_xlim(1,10**8)
 ax2.set_xlabel('log(generators)')
 
-fig.set_size_inches(12,6)
+ax3 = fig.add_subplot('133')
+ax3.scatter(scipy_019_area_data[0], scipy_019_area_data[1])
+ax3.set_ylabel('% reconstitution of surface area')
+ax3.set_xlabel('log(generators)')
+ax3.set_xscale('log')
+ax3.set_ylim(99,100.1)
+ax3.set_xlim(1,10**8)
+
+fig.set_size_inches(18,6)
 fig.savefig('fig_benchmarks.png', dpi=300)
